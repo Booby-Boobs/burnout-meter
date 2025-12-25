@@ -61,6 +61,24 @@ npm run tauri build
 
 ---
 
+## ⚠️ IMPORTANT: Permissions Required (macOS Only)
+
+**WARNING: Boobs Ticker requires special permissions to monitor your keystrokes and mouse activity. Without these, the app won't track your input properly.**
+
+### Required Permissions:
+- **Accessibility**: Allows the app to monitor mouse clicks and special keys (Tab, Enter, etc.).
+- **Input Monitoring**: Allows the app to monitor alphabet keys (A-Z) and other standard keyboard input.
+
+### How to Enable:
+1. Open **System Settings** > **Privacy & Security**.
+2. Scroll down and click **Accessibility** on the left.
+3. Click the **+** button and add `boobs-ticker.app` (or your terminal app if running in dev mode).
+4. Also enable **Input Monitoring** in the same section.
+
+**If you skip this, the app will prompt you on first launch, but you can enable it manually here.**
+
+---
+
 ## How to Use
 
 1. Launch the App: It sticks to the bottom of your screen. Always on top.
