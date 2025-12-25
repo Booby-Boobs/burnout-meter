@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "boobs-ticker",
+  "productName": "The Burnout Meter",
   "version": "0.1.0",
-  "identifier": "com.matsuzakiyousuke.boobs-ticker",
+  "identifier": "com.matsuzakiyousuke.the-burnout-meter",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "boobs-ticker",
+        "title": "The Burnout Meter",
         "width": 670,
         "height": 140,
         "decorations": true,

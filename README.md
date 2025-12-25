@@ -1,8 +1,8 @@
-# Boobs Ticker
+# The Burnout Meter
 
 Your IRL Health Bar. Don't let it hit zero.
 
-Boobs Ticker is a desktop application that sits at the bottom of your screen, looking exactly like a financial news ticker (Bloomberg style).
+The Burnout Meter is a desktop application that sits at the bottom of your screen, looking exactly like a financial news ticker (Bloomberg style).
 But instead of tracking stock prices, it tracks the real-time depreciation of your HP as you work.
 
 Every keystroke costs you. Every mouse click drains you.
@@ -63,7 +63,7 @@ npm run tauri build
 
 ## ⚠️ IMPORTANT: Permissions Required (macOS Only)
 
-**WARNING: Boobs Ticker requires special permissions to monitor your keystrokes and mouse activity. Without these, the app won't track your input properly.**
+**WARNING: The Burnout Meter requires special permissions to monitor your keystrokes and mouse activity. Without these, the app won't track your input properly.**
 
 ### Required Permissions:
 - **Accessibility**: Allows the app to monitor mouse clicks and special keys (Tab, Enter, etc.).
