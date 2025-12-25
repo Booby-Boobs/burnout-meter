@@ -32,3 +32,17 @@ jobs:
 
       - name: Build project
         run: cd tauri-app && npm run build
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./tauri-app/src-tauri -> target"
+
+      - name: Check Rust code
+        run: cd tauri-app/src-tauri && cargo check
+
+      - name: Lint Rust code
+        run: cd tauri-app/src-tauri && cargo clippy -- -D warnings
