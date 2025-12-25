@@ -86,9 +86,17 @@ pub async fn run() {
             let app_handle = app.handle().clone();
             let state_clone = state.clone();
 
-            // Position window at bottom
+            // Position window at bottom, accounting for screen height
             if let Some(window) = app.get_webview_window("main") {
-                let _ = window.set_position(tauri::Position::Physical(tauri::PhysicalPosition { x: 0, y: 1040 }));
+                if let Ok(Some(monitor)) = window.current_monitor() {
+                    let screen_height = monitor.size().height;
+                    // Position window 150px from the bottom to account for taskbar and window height
+                    let y_pos = screen_height.saturating_sub(150);
+                    let _ = window.set_position(tauri::Position::Physical(tauri::PhysicalPosition { x: 0, y: y_pos as i32 }));
+                } else {
+                    // Fallback to fixed position if monitor info unavailable
+                    let _ = window.set_position(tauri::Position::Physical(tauri::PhysicalPosition { x: 0, y: 1040 }));
+                }
             }
 
             // Start monitoring
