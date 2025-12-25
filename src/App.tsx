@@ -227,7 +227,7 @@ function App() {
        <div className={`flex justify-between items-center text-[10px] ${isDark ? "text-gray-400" : "text-gray-500"} mt-1`}>
          <button
            onClick={toggleDark}
-           className={`px-2 py-1 rounded text-sm ${isDark ? "bg-yellow-500 hover:bg-yellow-600 text-black" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+           className={`underline cursor-pointer text-[10px] ${isDark ? "text-yellow-400 hover:text-yellow-300" : "text-blue-400 hover:text-blue-300"}`}
          >
            {isDark ? "Light" : "Dark"}
          </button>
