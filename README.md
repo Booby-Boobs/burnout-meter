@@ -91,9 +91,9 @@ npm run tauri build
 
 You can tweak the depreciation rates in src-tauri/src/lib.rs if your energy is cheaper/expensive.
 
-* Keystroke: -0.2%
-* Mouse Click: -1%
-* Mouse Move: -0.001%
+* Keystroke: -0.025% (per keypress, accumulated every 100ms)
+* Mouse Click: -0.1% (per click, accumulated every 100ms)
+* Mouse Move: -0.0004% (per pixel moved, accumulated every 100ms)
 * Recovery: Stops when inactive.
 
 ---
