@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 use tauri::{AppHandle, Manager, Emitter};
 use tokio::time;
-use rdev::{listen, Event, EventType};
+use device_query::{DeviceQuery, DeviceState, Keycode, MouseState};
 use rand::seq::SliceRandom;
 
 
@@ -28,8 +28,6 @@ struct AppState {
     keys_total: u64,
     clicks_total: u64,
     mouse_total: f64, // pixel distance
-    last_mouse_x: f64,
-    last_mouse_y: f64,
 }
 
 
@@ -71,8 +69,6 @@ pub async fn run() {
         keys_total: 0,
         clicks_total: 0,
         mouse_total: 0.0,
-        last_mouse_x: 0.0,
-        last_mouse_y: 0.0,
     }));
 
     tauri::Builder::default()
@@ -114,46 +110,55 @@ async fn monitor_inputs(state: Arc<Mutex<AppState>>, app_handle: AppHandle) {
     let state_clone = state.clone();
     let app_handle_clone = app_handle.clone();
 
-    // Input listener in separate thread
+    // Input listener in separate thread using device_query
     std::thread::spawn(move || {
-        let callback = move |event: Event| {
+        let device_state = DeviceState::new();
+        let mut last_keys: Vec<Keycode> = vec![];
+        let mut last_mouse_state: Option<MouseState> = None;
+
+        loop {
+            let keys: Vec<Keycode> = device_state.get_keys();
+            let mouse: MouseState = device_state.get_mouse();
+
             let mut s = state_clone.lock().unwrap();
-            match event.event_type {
-                EventType::KeyPress(_) => {
-                    s.keys_pressed += 1;
-                    s.keys_total += 1;
-                    s.last_activity = Instant::now();
-                }
-                EventType::ButtonPress(_) => {
-                    s.clicks += 1;
-                    s.clicks_total += 1;
-                    s.last_activity = Instant::now();
-                }
-                EventType::MouseMove { x, y } => {
-                    let x = x as f64;
-                    let y = y as f64;
-                    if s.last_mouse_x == 0.0 && s.last_mouse_y == 0.0 {
-                        s.last_mouse_x = x;
-                        s.last_mouse_y = y;
-                    } else {
-                        let dx = (x - s.last_mouse_x).abs();
-                        let dy = (y - s.last_mouse_y).abs();
-                        s.mouse_total += dx + dy; // Manhattan distance in pixels
-                        s.last_mouse_x = x;
-                        s.last_mouse_y = y;
+
+            // Detect new key presses
+            if keys.len() > last_keys.len() {
+                s.keys_pressed += 1;
+                s.keys_total += 1;
+                s.last_activity = Instant::now();
+            }
+
+            // Detect mouse clicks
+            if let Some(last_mouse) = &last_mouse_state {
+                for &button in &[1, 2, 3] { // 1: Left, 2: Right, 3: Middle
+                    let current_pressed = mouse.button_pressed.get(button).copied().unwrap_or(false);
+                    let last_pressed = last_mouse.button_pressed.get(button).copied().unwrap_or(false);
+                    if current_pressed && !last_pressed {
+                        s.clicks += 1;
+                        s.clicks_total += 1;
+                        s.last_activity = Instant::now();
                     }
+                }
+            }
+
+            // Detect mouse movement
+            if let Some(last_mouse) = &last_mouse_state {
+                let dx = (mouse.coords.0 as f64 - last_mouse.coords.0 as f64).abs();
+                let dy = (mouse.coords.1 as f64 - last_mouse.coords.1 as f64).abs();
+                if dx > 0.0 || dy > 0.0 {
+                    s.mouse_total += dx + dy;
                     s.mouse_moves += 1;
                     s.last_activity = Instant::now();
                 }
-                _ => {}
             }
-        };
-        match listen(callback) {
-            Ok(_) => {},
-            Err(e) => {
-                eprintln!("Failed to listen to inputs: {:?}", e);
-                std::process::exit(1);
-            }
+
+            last_keys = keys;
+            last_mouse_state = Some(mouse);
+
+            drop(s); // Unlock mutex
+
+            std::thread::sleep(Duration::from_millis(50));
         }
     });
 
@@ -163,7 +168,7 @@ async fn monitor_inputs(state: Arc<Mutex<AppState>>, app_handle: AppHandle) {
         interval.tick().await;
         let mut s = state.lock().unwrap();
 
-            s.soul -= (s.keys_pressed as f64 * 1.0 + s.clicks as f64 * 1.0 + s.mouse_moves as f64 * 0.004) / 10.0; // key 10%, click 10%, mouse 4x
+        s.soul -= (s.keys_pressed as f64 * 1.0 + s.clicks as f64 * 1.0 + s.mouse_moves as f64 * 0.004) / 10.0; // key 10%, click 10%, mouse 4x
 
         s.soul = s.soul.clamp(0.0, 100.0); // cap between 0 and 100
 

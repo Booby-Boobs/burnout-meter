@@ -12,6 +12,8 @@ interface TickerData {
   mouse_total: number;
 }
 
+
+
 const Ticker = memo(({ news }: { news: string[] }) => (
   <div className="whitespace-nowrap animate-marquee font-['Press_Start_2P'] text-sm">
     {news.length > 0 && (
