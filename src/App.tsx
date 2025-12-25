@@ -27,7 +27,7 @@ function App() {
   const [news, setNews] = useState<string[]>([]);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
   const [stats, setStats] = useState({ total_time: 0, keys_total: 0, clicks_total: 0, mouse_total: 0 });
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const boostEnergy = async () => {
     await invoke("boost_energy");
   };
@@ -207,12 +207,6 @@ function App() {
           >
             Annoyed -5%
           </button>
-          <button
-            onClick={toggleDark}
-            className={`px-2 py-1 rounded text-sm ml-2 ${isDark ? "bg-yellow-500 hover:bg-yellow-600 text-black" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
-          >
-            {isDark ? "☀️ Light" : "🌙 Dark"}
-          </button>
 
         </div>
         <div className={`h-4 ${isDark ? "bg-gray-700" : "bg-gray-300"} rounded overflow-hidden mt-1`}>
@@ -230,9 +224,15 @@ function App() {
         </div>
       )}
 
-       <div className={`text-right text-[10px] ${isDark ? "text-gray-400" : "text-gray-500"} mt-1`}>
-        Time: {stats.total_time}m | Keys: {stats.keys_total} | Clicks: {stats.clicks_total} | Mouse: {Math.round(stats.mouse_total / 96)} in
-      </div>
+       <div className={`flex justify-between items-center text-[10px] ${isDark ? "text-gray-400" : "text-gray-500"} mt-1`}>
+         <button
+           onClick={toggleDark}
+           className={`px-2 py-1 rounded text-sm ${isDark ? "bg-yellow-500 hover:bg-yellow-600 text-black" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+         >
+           {isDark ? "Light" : "Dark"}
+         </button>
+         <div>Time: {stats.total_time}m | Keys: {stats.keys_total} | Clicks: {stats.clicks_total} | Mouse: {Math.round(stats.mouse_total / 96)} in</div>
+       </div>
 
        <div className={`text-center text-xs ${isDark ? "text-gray-400" : "text-gray-500"} mt-1`}>
         <img src="/everyday.png" className="w-4 h-4 rounded-full inline mr-1" />
