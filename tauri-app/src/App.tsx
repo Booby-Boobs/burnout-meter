@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
+import { openUrl } from "@tauri-apps/plugin-opener";
 
 interface TickerData {
   soul: number;
@@ -60,12 +61,12 @@ function App() {
         >
           Endure +5%
         </button>
-        <button
-          onClick={() => setSoul(Math.max(soul - 5, 0))}
-          className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm text-black"
-        >
-          Annoyed -5%
-        </button>
+         <button
+           onClick={() => setSoul(soul - 5)}
+           className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm text-black"
+         >
+           Annoyed -5%
+         </button>
 
         </div>
         <div className="h-4 bg-gray-300 rounded overflow-hidden mt-1">
@@ -75,9 +76,17 @@ function App() {
           ></div>
         </div>
 
+      {soul <= 0 && (
+        <div className="text-center text-xs text-red-600 mt-1">
+          You've been working too hard. Please visit here for your medical certificate.
+          <br />
+          <a href="#" onClick={() => openUrl("https://booby.dev/medical-certificate")} className="text-blue-500 underline">Medical Certificate Page</a>
+        </div>
+      )}
+
       <div className="text-center text-xs text-gray-500 mt-1">
         <img src="/everyday.png" className="w-4 h-4 rounded-full inline mr-1" />
-        we are <a href="https://booby.dev/about"><img src="/boobs.png" className="h-5 w-auto inline" /></a>
+        we are <a href="#" onClick={() => openUrl("https://booby.dev/about")}><img src="/boobs.png" className="h-5 w-auto inline" /></a>
       </div>
     </div>
   );
