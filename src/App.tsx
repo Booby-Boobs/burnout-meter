@@ -27,6 +27,7 @@ function App() {
   const [news, setNews] = useState<string[]>([]);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
   const [stats, setStats] = useState({ total_time: 0, keys_total: 0, clicks_total: 0, mouse_total: 0 });
+  const [isDark, setIsDark] = useState(false);
   const boostEnergy = async () => {
     await invoke("boost_energy");
   };
@@ -34,6 +35,8 @@ function App() {
   const annoyEnergy = async () => {
     await invoke("annoy_energy");
   };
+
+  const toggleDark = () => setIsDark(!isDark);
 
   useEffect(() => {
     verifyPermissions();
@@ -184,7 +187,7 @@ function App() {
   const duration = news.length > 0 ? Math.max(15000, (news[currentNewsIndex]?.length || 0) * 300) : 15000;
 
   return (
-    <div className="h-36 bg-gray-100 text-black p-2">
+    <div className={`h-36 ${isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"} p-2`}>
         <div className="flex items-center justify-between h-8">
            <div className={`text-xs font-bold font-['Press_Start_2P'] ${soul > 70 ? "text-green-500" : soul > 50 ? "text-orange-500" : soul > 20 ? "text-yellow-500" : soul > 0 ? "text-red-500" : "text-red-700"}`}>
              HP: {soul.toFixed(0)}%
@@ -198,15 +201,21 @@ function App() {
         >
           Endure +5%
         </button>
-         <button
-           onClick={annoyEnergy}
-           className="px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded text-sm text-black"
-         >
-           Annoyed -5%
-         </button>
+          <button
+            onClick={annoyEnergy}
+            className={`px-2 py-1 ${isDark ? "bg-gray-600 hover:bg-gray-500 text-white" : "bg-gray-300 hover:bg-gray-400 text-black"} rounded text-sm`}
+          >
+            Annoyed -5%
+          </button>
+          <button
+            onClick={toggleDark}
+            className={`px-2 py-1 rounded text-sm ml-2 ${isDark ? "bg-yellow-500 hover:bg-yellow-600 text-black" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+          >
+            {isDark ? "☀️ Light" : "🌙 Dark"}
+          </button>
 
         </div>
-        <div className="h-4 bg-gray-300 rounded overflow-hidden mt-1">
+        <div className={`h-4 ${isDark ? "bg-gray-700" : "bg-gray-300"} rounded overflow-hidden mt-1`}>
           <div
             className={`h-full transition-all duration-300 ${soul > 70 ? "bg-green-500" : soul > 50 ? "bg-orange-500" : soul > 20 ? "bg-yellow-500" : "bg-red-500"}`}
             style={{ width: `${Math.max(soul, 0)}%` }}
@@ -214,20 +223,20 @@ function App() {
          </div>
 
       {soul <= 0 && (
-        <div className="text-center text-xs text-red-600 mt-1">
+        <div className={`text-center text-xs ${isDark ? "text-red-400" : "text-red-600"} mt-1`}>
           You've been working too hard. Please visit here for your medical certificate.
           <br />
-          <a href="#" onClick={() => openUrl("https://booby.dev/medical-certificate")} className="text-blue-500 underline">Medical Certificate Page</a>
+          <a href="#" onClick={() => openUrl("https://booby.dev/medical-certificate")} className={`${isDark ? "text-blue-400" : "text-blue-500"} underline`}>Medical Certificate Page</a>
         </div>
       )}
 
-      <div className="text-right text-[10px] text-gray-500 mt-1">
+       <div className={`text-right text-[10px] ${isDark ? "text-gray-400" : "text-gray-500"} mt-1`}>
         Time: {stats.total_time}m | Keys: {stats.keys_total} | Clicks: {stats.clicks_total} | Mouse: {Math.round(stats.mouse_total / 96)} in
       </div>
 
-      <div className="text-center text-xs text-gray-500 mt-1">
+       <div className={`text-center text-xs ${isDark ? "text-gray-400" : "text-gray-500"} mt-1`}>
         <img src="/everyday.png" className="w-4 h-4 rounded-full inline mr-1" />
-        we are <a href="#" onClick={() => openUrl("https://booby.dev/about")}><img src="/boobs.png" className="h-5 w-auto inline" /></a>
+          we are <a href="#" onClick={() => openUrl("https://booby.dev/about")} className={`${isDark ? "text-blue-400" : "text-blue-500"}`}><img src="/boobs.png" className="h-5 w-auto inline" /></a>
       </div>
     </div>
   );
