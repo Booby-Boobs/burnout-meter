@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
+   "$schema": "https://schema.tauri.app/config/2",
   "productName": "The Burnout Meter",
   "version": "0.1.0",
   "identifier": "com.matsuzakiyousuke.the-burnout-meter",
@@ -20,16 +20,17 @@
         "alwaysOnTop": true,
         "skipTaskbar": true,
         "resizable": false,
-        "center": false,
-        "x": 0,
-        "y": 1040
+         "center": false,
+         "x": 50,
+         "y": 50,
+         "focus": true
       }
     ],
     "security": {
       "csp": null
     }
   },
-  "bundle": {
+   "bundle": {
     "active": true,
     "targets": "all",
     "icon": [

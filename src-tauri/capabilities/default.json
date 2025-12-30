@@ -7,11 +7,6 @@
     "core:default",
     "opener:default",
     "shell:allow-open",
-    "dialog:default",
-    "macos-permissions:default",
-    "macos-permissions:allow-check-accessibility-permission",
-    "macos-permissions:allow-check-input-monitoring-permission",
-    "dialog:default",
-    "shell:allow-open"
+    "dialog:default"
   ]
 }
