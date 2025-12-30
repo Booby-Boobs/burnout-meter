@@ -68,7 +68,7 @@ pub async fn run() {
         last_mouse_y: 0.0,
     }));
 
-    let builder = tauri::Builder::default()
+    let mut builder = tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_positioner::init())
         .plugin(tauri_plugin_dialog::init())
