@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "macos-specific-permissions",
+  "description": "macOS-specific permissions",
+  "permissions": [
+    "macos-permissions:default",
+    "macos-permissions:allow-check-accessibility-permission",
+    "macos-permissions:allow-check-input-monitoring-permission"
+  ]
+}
