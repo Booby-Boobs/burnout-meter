@@ -3,36 +3,37 @@
   "productName": "The Burnout Meter",
   "version": "0.1.0",
   "identifier": "com.matsuzakiyousuke.the-burnout-meter",
-  "build": {
-    "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
-  },
-  "app": {
-    "windows": [
-      {
-        "title": "The Burnout Meter",
-        "width": 670,
-        "height": 140,
-        "decorations": true,
-        "transparent": false,
-        "alwaysOnTop": true,
-        "skipTaskbar": true,
-        "resizable": false,
-         "center": false,
-         "x": 50,
-         "y": 50,
-         "focus": true
-      }
-    ],
-    "security": {
-      "csp": null
-    }
-  },
+   "build": {
+     "beforeDevCommand": "npm run dev",
+     "devUrl": "http://localhost:1420",
+     "beforeBuildCommand": "npm run build",
+     "frontendDist": "../dist"
+   },
+    "app": {
+     "windows": [
+       {
+         "title": "The Burnout Meter",
+         "width": 670,
+         "height": 140,
+         "decorations": true,
+         "transparent": false,
+         "alwaysOnTop": true,
+         "skipTaskbar": true,
+         "resizable": false,
+          "center": false,
+          "x": 50,
+          "y": 50,
+          "focus": true
+       }
+     ],
+     "security": {
+       "csp": null,
+       "capabilities": []
+     }
+   },
    "bundle": {
     "active": true,
-    "targets": "all",
+     "targets": "all",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

@@ -1,0 +1,10 @@
+{
+  "app": {
+    "security": {
+      "capabilities": [
+        "default",
+        "macos-specific-permissions"
+      ]
+    }
+  }
+}
